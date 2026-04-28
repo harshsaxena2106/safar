@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Safar - My Bookings</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f7f6; padding: 50px 20px; text-align: center; }
+        
+        .container { 
+            max-width: 600px; 
+            margin: auto; 
+            background: white; 
+            padding: 40px; 
+            border-radius: 15px; 
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1); 
+        }
+        
+        h1 { color: #007BFF; margin-bottom: 30px; font-size: 28px; }
+
+        /* No Booking Section */
+        #no-booking {
+            padding: 20px;
+        }
+        .empty-icon {
+            font-size: 60px;
+            color: #ccc;
+            margin-bottom: 15px;
+        }
+        .empty-text {
+            color: #777;
+            font-size: 18px;
+            margin-bottom: 20px;
+        }
+
+        /* Active Booking Section */
+        .status-card { 
+            background: #e7f3ff; 
+            border-left: 5px solid #007BFF;
+            color: #0056b3; 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin: 20px 0;
+            text-align: left;
+            display: none; /* Default hidden */
+        }
+        .status-card h3 { margin-bottom: 10px; font-size: 22px; color: #333; }
+        .badge {
+            background: #28a745;
+            color: white;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 14px;
+            font-weight: 600;
+        }
+
+        .back-btn { 
+            display: inline-block; 
+            margin-top: 20px; 
+            padding: 12px 30px; 
+            background: #007BFF; 
+            color: white; 
+            text-decoration: none; 
+            border-radius: 8px; 
+            font-weight: 600;
+            transition: 0.3s;
+        }
+        .back-btn:hover { background: #0056b3; transform: scale(1.05); }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h1>Your Bookings</h1>
+
+        <div id="no-booking">
+            <div class="empty-icon">
+                <i class="fa-solid fa-suitcase-rolling"></i>
+            </div>
+            <p class="empty-text">Oops! You haven't booked any trip yet.</p>
+            <p style="color: #999; font-size: 14px; margin-bottom: 20px;">Explore our destinations and start your journey today!</p>
+        </div>
+
+        <div id="booking-card" class="status-card">
+            <p style="font-size: 12px; text-transform: uppercase; letter-spacing: 1px; color: #666;">Booking Confirmed</p>
+            <h3 id="b-place"></h3>
+            <p style="margin-bottom: 15px; color: #555;">Your adventure is waiting for you! Get your bags ready.</p>
+            <span class="badge">Confirmed ✅</span>
+        </div>
+
+        <a href="index.html" class="back-btn">← Back to Home</a>
+    </div>
+
+    <script>
+        window.onload = function() {
+            // Check if user confirmed a booking in this session
+            const hasBooked = localStorage.getItem('lastBooking'); 
+            const place = localStorage.getItem('place');
+
+            // Agar user ne 'Confirm' button dabaya tha aur place selected hai
+            if(hasBooked && place) {
+                document.getElementById('no-booking').style.display = 'none';
+                document.getElementById('booking-card').style.display = 'block';
+                document.getElementById('b-place').innerText = "Trip to " + place;
+            }
+        }
+    </script>
+</body>
+</html>

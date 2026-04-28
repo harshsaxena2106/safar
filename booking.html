@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safar - Confirm Booking</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background-color: #f4f7f6; padding: 50px 20px; }
+        .booking-container { max-width: 800px; margin: 0 auto; background: white; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); overflow: hidden; display: flex; flex-wrap: wrap; }
+        .booking-details { flex: 1; padding: 40px; background: #007BFF; color: white; min-width: 300px; }
+        .booking-details h2 { margin-bottom: 20px; }
+        .booking-details p { margin-bottom: 15px; font-size: 14px; opacity: 0.9; }
+        .price-tag { font-size: 24px; font-weight: 600; margin-top: 20px; }
+        .booking-form { flex: 1.5; padding: 40px; min-width: 300px; }
+        .booking-form h3 { color: #333; margin-bottom: 25px; }
+        .form-group { margin-bottom: 20px; }
+        label { display: block; margin-bottom: 5px; font-size: 14px; color: #666; }
+        input, select { width: 100%; padding: 12px; border: 1px solid #ddd; border-radius: 8px; outline: none; }
+        .confirm-btn { width: 100%; padding: 15px; background: #007BFF; color: white; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; transition: 0.3s; }
+        .confirm-btn:hover { background: #0056b3; }
+        .success-msg { display: none; text-align: center; padding: 20px; color: #155724; background: #d4edda; border-radius: 8px; margin-top: 20px; }
+    </style>
+</head>
+<body>
+
+    <div class="booking-container">
+        <div class="booking-details">
+            <h2>Your Trip</h2>
+            <p><strong>Destination:</strong> <span id="trip-name">Loading...</span></p>
+            <p><strong>Duration:</strong> 3 Days / 2 Nights</p>
+            <p><strong>Includes:</strong> Hotel, Sightseeing, Breakfast</p>
+            <div class="price-tag" id="trip-price">Total: ₹0</div>
+        </div>
+
+        <div class="booking-form">
+            <h3>Traveler Information</h3>
+            <div id="booking-fields">
+                <div class="form-group">
+                    <label>Full Name</label>
+                    <input type="text" id="cust-name" placeholder="Enter your name">
+                </div>
+                <div class="form-group">
+                    <label>Travel Date</label>
+                    <input type="date" id="travel-date">
+                </div>
+                <div class="form-group">
+                    <label>Number of People</label>
+                    <select id="people">
+                        <option value="1">1 Person</option>
+                        <option value="2">2 People</option>
+                        <option value="3">3 People</option>
+                        <option value="4+">4+ People</option>
+                    </select>
+                </div>
+                <button class="confirm-btn" onclick="proceedToPayment()">Proceed to Payment</button>
+            </div>
+            <div id="success" class="success-msg">
+                🎉 Order placed! Redirecting to Payment...
+            </div>
+        </div>
+    </div>
+
+    <script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // localStorage से डेटा निकालना (Agra, Manali वाला)
+        const place = localStorage.getItem('selectedPlace');
+        const price = localStorage.getItem('selectedPrice');
+
+        if (place && price) {
+            document.getElementById('trip-name').innerText = place;
+            // Comma formatting के लिए fix
+            let formattedPrice = price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+            document.getElementById('trip-price').innerText = "Total: ₹" + formattedPrice;
+        } else {
+            document.getElementById('trip-name').innerText = "Agra, India";
+            document.getElementById('trip-price').innerText = "Total: ₹15,000";
+        }
+
+        const currentUser = localStorage.getItem('currentUser');
+        if (currentUser) {
+            const userData = JSON.parse(currentUser);
+            document.getElementById('cust-name').value = userData.name;
+        }
+    });
+
+    function proceedToPayment() {
+        const name = document.getElementById('cust-name').value;
+        const date = document.getElementById('travel-date').value;
+
+        if(!name || !date) {
+            alert("Please fill all details before payment!");
+            return;
+        }
+
+        // स्क्रीन पर सक्सेस मैसेज दिखाना
+        document.getElementById('booking-fields').style.display = 'none';
+        document.getElementById('success').style.display = 'block';
+
+        // 1.5 seconds बाद पेमेंट पेज पर भेज दो
+        setTimeout(() => {
+            window.location.href = 'payment.html';
+        }, 1500);
+    }
+    </script>
+</body>
+</html>

@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Safar - Explore the World</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav class="navbar">
+        <div class="logo">SAFAR</div>
+        <ul class="nav-links">
+            <li><a href="index.html">Home</a></li>
+            <li><a href="destinations.html">Destinations</a></li>
+            <li><a href="my-bookings.html">Bookings</a></li>
+            <li><a href="contact.html">Contact</a></li>
+        </ul>
+        <button class="nav-btn" onclick="window.location.href='auth.html'">Login</button>
+    </nav>
+
+    <header class="hero">
+        <div class="hero-content">
+            <h1>Discover Your Next Adventure</h1>
+            <p>Explore exotic destinations with Safar's premium travel packages.</p>
+            <div class="search-box">
+                <input type="text" id="searchInput" placeholder="Where do you want to go?">
+                <button onclick="handleSearch()"><i class="fa-solid fa-magnifying-glass"></i> Search</button>
+            </div>
+        </div>
+    </header>
+
+    <section class="container">
+        <h2 class="section-title">Popular Destinations</h2>
+        <div class="dest-grid" id="destinationGrid">
+           
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=500" alt="Agra">
+                <div class="dest-info">
+                    <h3>Agra, India</h3>
+                    <p>Experience the eternal beauty of the Taj Mahal.</p>
+                    <div class="price">₹15,000 / Person</div>
+                    <button class="book-now" onclick="saveTrip('Agra, India', '15000')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=500" alt="Manali">
+                <div class="dest-info">
+                    <h3>Manali, India</h3>
+                    <p>Enjoy the snow-capped mountains and river rafting.</p>
+                    <div class="price">₹12,500 / Person</div>
+                    <button class="book-now" onclick="saveTrip('Manali, India', '12500')">Book Now</button>
+                </div>
+            </div>
+
+            <div class="dest-card">
+                <img src="https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=500" alt="Kerala">
+                <div class="dest-info">
+                    <h3>Kerala, India</h3>
+                    <p>Relax in the serene backwaters and lush greenery.</p>
+                    <div class="price">₹18,000 / Person</div>
+                    <button class="book-now" onclick="saveTrip('Kerala, India', '18000')">Book Now</button>
+                </div>
+            </div>
+
+        </div>
+    </section>
+
+    <footer class="footer">
+        <div class="footer-container">
+            <div class="footer-row">
+                <div class="footer-col">
+                    <h4>About Safar</h4>
+                    <p>Safar is your ultimate travel partner, helping you discover the most beautiful destinations in India with ease and comfort.</p>
+                </div>
+                <div class="footer-col">
+                    <h4>Quick Links</h4>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="destinations.html">Destinations</a></li>
+                        <li><a href="my-bookings.html">Bookings</a></li>
+                        <li><a href="contact.html">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h4>Contact Us</h4>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                    <p style="margin-top: 15px;"><i class="fas fa-envelope"></i> support@safar.com</p>
+                </div>
+            </div>
+            <hr>
+            <p class="copyright">© 2026 Safar Travel Systems | Created by Harsh</p>
+        </div>
+    </footer>
+
+    <script>
+    // Hamara Destination Database
+    const destinations = [
+        { name: "Agra, India", price: "15000", desc: "Experience the eternal beauty of the Taj Mahal.", img: "https://images.unsplash.com/photo-1548013146-72479768bada?q=80&w=500" },
+        { name: "Manali, India", price: "12500", desc: "Enjoy the snow-capped mountains and river rafting.", img: "https://images.unsplash.com/photo-1544735716-392fe2489ffa?q=80&w=500" },
+        { name: "Kerala, India", price: "18000", desc: "Relax in the serene backwaters and lush greenery.", img: "https://images.unsplash.com/photo-1602216056096-3b40cc0c9944?q=80&w=500" }
+    ];
+
+    // Search Logic
+    function handleSearch() {
+        const query = document.getElementById('searchInput').value.toLowerCase();
+        const grid = document.getElementById('destinationGrid');
+        
+        // Filter destinations
+        const filtered = destinations.filter(item => item.name.toLowerCase().includes(query));
+
+        // Update UI
+        grid.innerHTML = ''; // Pehle purana clear karo
+
+        if(filtered.length > 0) {
+            filtered.forEach(item => {
+                grid.innerHTML += `
+                    <div class="dest-card">
+                        <img src="${item.img}" alt="${item.name}">
+                        <div class="dest-info">
+                            <h3>${item.name}</h3>
+                            <p>${item.desc}</p>
+                            <div class="price">₹${Number(item.price).toLocaleString('en-IN')} / Person</div>
+                            <button class="book-now" onclick="saveTrip('${item.name}', '${item.price}')">Book Now</button>
+                        </div>
+                    </div>
+                `;
+            });
+        } else {
+            grid.innerHTML = `<div style="grid-column: 1/-1; padding: 50px;"><h3>Oops! No destination found for "${query}".</h3></div>`;
+        }
+    }
+
+    // Save Trip Logic
+    function saveTrip(place, price) {
+        localStorage.setItem('selectedPlace', place);
+        localStorage.setItem('selectedPrice', price);
+        window.location.href = 'booking.html';
+    }
+
+    // Login Check
+    window.onload = function() {
+        const loggedInUser = localStorage.getItem('currentUser');
+        if (loggedInUser) {
+            const userData = JSON.parse(loggedInUser);
+            const loginBtn = document.querySelector('.nav-btn');
+            loginBtn.innerText = "Hi, " + userData.name.split(' ')[0];
+            loginBtn.style.background = "#28a745";
+        }
+    }
+    </script>
+</body>
+</html>

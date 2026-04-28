@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Safar - Secure Payment</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; font-family: 'Poppins', sans-serif; }
+        body { background: #f4f7f6; display: flex; justify-content: center; align-items: center; height: 100vh; }
+        .payment-box { background: white; padding: 40px; border-radius: 15px; box-shadow: 0 10px 30px rgba(0,0,0,0.1); width: 400px; text-align: center; }
+        h2 { color: #333; margin-bottom: 20px; }
+        .method { border: 1px solid #ddd; padding: 15px; margin-bottom: 10px; border-radius: 8px; cursor: pointer; transition: 0.3s; display: flex; align-items: center; gap: 15px; }
+        .method:hover { border-color: #007BFF; background: #f0f7ff; }
+        .pay-btn { background: #28a745; color: white; border: none; padding: 15px; width: 100%; border-radius: 8px; font-weight: 600; cursor: pointer; margin-top: 20px; }
+        #loader { display: none; margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <div class="payment-box">
+        <h2>Select Payment</h2>
+        <div class="method"><input type="radio" name="pay"> <span>Google Pay / UPI</span></div>
+        <div class="method"><input type="radio" name="pay"> <span>Debit / Credit Card</span></div>
+        <div class="method"><input type="radio" name="pay"> <span>Net Banking</span></div>
+        
+        <button class="pay-btn" onclick="processPayment()">Pay Now</button>
+
+        <div id="loader">
+            <p>🔄 Processing Payment...</p>
+        </div>
+    </div>
+
+    <script>
+        function processPayment() {
+            document.getElementById('loader').style.display = 'block';
+            setTimeout(() => {
+                alert("Payment Successful! Your Safar begins now.");
+                localStorage.setItem('lastBooking', 'true'); // बुकिंग कन्फर्म मार्क करो
+                window.location.href = 'my-bookings.html';
+            }, 2500);
+        }
+    </script>
+</body>
+</html>
